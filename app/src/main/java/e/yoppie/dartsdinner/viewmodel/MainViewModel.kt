@@ -1,11 +1,17 @@
 package e.yoppie.dartsdinner.viewmodel
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.util.Log
 import e.yoppie.dartsdinner.data.Dinner
+import e.yoppie.dartsdinner.repository.DinnerRepository
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class MainViewModel : ViewModel() {
     var dinnerMutableLiveData = MutableLiveData<MutableList<Dinner>>()
+    private val dinnerRepository = DinnerRepository()
 
     var dinnerMutableList = mutableListOf(
         Dinner("1", "カレー", "https://cookpad.com/"),
@@ -35,30 +41,16 @@ class MainViewModel : ViewModel() {
         dinnerMutableLiveData.value = dinnerMutableList
     }
 
+    @SuppressLint("CheckResult")
     fun loadDinnerList(){
-        dinnerMutableList = mutableListOf(
-            Dinner("0", "ぐるなび", "https://cookpad.com/"),
-            Dinner("1", "ぐるなび", "https://cookpad.com/"),
-            Dinner("2", "ぐるなび", "https://cookpad.com/"),
-            Dinner("3", "ぐるなび", "https://cookpad.com/"),
-            Dinner("4", "ぐるなび", "https://cookpad.com/"),
-            Dinner("5", "ぐるなび", "https://cookpad.com/"),
-            Dinner("6", "ぐるなび", "https://cookpad.com/"),
-            Dinner("7", "ぐるなび", "https://cookpad.com/"),
-            Dinner("8", "ぐるなび", "https://cookpad.com/"),
-            Dinner("9", "ぐるなび", "https://cookpad.com/"),
-            Dinner("10", "ぐるなび", "https://cookpad.com/"),
-            Dinner("11", "ぐるなび", "https://cookpad.com/"),
-            Dinner("12", "ぐるなび", "https://cookpad.com/"),
-            Dinner("13", "ぐるなび", "https://cookpad.com/"),
-            Dinner("14", "ぐるなび", "https://cookpad.com/"),
-            Dinner("15", "ぐるなび", "https://cookpad.com/"),
-            Dinner("16", "ぐるなび", "https://cookpad.com/"),
-            Dinner("17", "ぐるなび", "https://cookpad.com/"),
-            Dinner("18", "ぐるなび", "https://cookpad.com/"),
-            Dinner("19", "ぐるなび", "https://cookpad.com/"),
-            Dinner("20", "ぐるなび", "https://cookpad.com/")
-        )
-        dinnerMutableLiveData.value = dinnerMutableList
+        dinnerRepository.getDinnerList()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ res ->
+                dinnerMutableList = res.foodList
+                dinnerMutableLiveData.value = dinnerMutableList
+            }, { error ->
+                Log.d("yoppie_debug", error.message)
+            })
     }
 }
