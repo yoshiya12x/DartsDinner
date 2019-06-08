@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">DartsDinner</string>
+    <string name="confirm_button">決定</string>
+    <string name="score">TARGET</string>
+</resources>

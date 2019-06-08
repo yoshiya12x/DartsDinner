@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+                name="mainViewModel"
+                type="e.yoppie.dartsdinner.viewmodel.MainViewModel"/>
+    </data>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+                android:layout_margin="20dp"
+                android:textSize="80sp"
+                android:layout_centerHorizontal="true"
+                android:text="@string/score"
+                android:id="@+id/scoreTextView"
+                android:layout_alignParentTop="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+                android:layout_below="@+id/scoreTextView"
+                android:id="@+id/dinnerSwipeRefreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/dinnerRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <android.support.design.widget.FloatingActionButton
+                android:id="@+id/arrowFloatingActionButton"
+                android:src="@drawable/arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                app:backgroundTint="@android:color/darker_gray"
+                app:fabSize="auto" />
+
+    </RelativeLayout>
+
+</layout>
+
